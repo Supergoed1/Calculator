@@ -25,6 +25,7 @@ namespace Calculator
         private int firstDigit;
         private int secondDigit;
         private int currentDigit = 1;
+        
 
         public MainWindow()
         {
@@ -33,7 +34,7 @@ namespace Calculator
 
         private void oneButton_Click(object sender, RoutedEventArgs e)
         {
-            output += "1";
+            output += "1 ";
             updateUI();
         }
 
