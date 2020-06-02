@@ -5,10 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="363.2">
+        Title="Calculator" Height="450" Width="363.2" MinWidth="240" MinHeight="450" VerticalAlignment="Top" MaxHeight="450" Background="#FFC7C7C7">
     <Grid>
-        <TextBlock x:Name="outputBlock" HorizontalAlignment="Left" Margin="-1,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="55" Width="345" FontSize="40" FlowDirection="RightToLeft"/>
-        <Grid Height="368" Margin="-1,52,-0.2,0" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="32*"/>
+            <ColumnDefinition Width="87*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="outputBlock" HorizontalAlignment="Left" Margin="10,-6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="53" Width="345" FontSize="40" MinWidth="80" MinHeight="30" Grid.ColumnSpan="2" Text="9990" FontWeight="SemiBold"/>
+        <Grid Height="368" Margin="-1,52,-0.2,0" Grid.ColumnSpan="2" VerticalAlignment="Top" MinHeight="368">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -19,23 +23,59 @@
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button x:Name="oneButton" Content="1" Grid.Column="0" Grid.Row="2" FontSize="40" Click="oneButton_Click"/>
-            <Button x:Name="twoButton" Content="2" Grid.Column="1" Grid.Row="2" FontSize="40" Click="twoButton_Click"/>
-            <Button x:Name="threeButton" Content="3" Grid.Column="2" Grid.Row="2" FontSize="40" Click="threeButton_Click"/>
-            <Button x:Name="fourButton" Content="4" Grid.Column="0" Grid.Row="1" FontSize="40" Click="fourButton_Click"/>
-            <Button x:Name="sixButton" Content="6" Grid.Column="2" Grid.Row="1" FontSize="40" Click="sixButton_Click"/>
-            <Button x:Name="sevenButton" Content="7" Grid.Column="0" Grid.Row="0" FontSize="40" Click="sevenButton_Click"/>
-            <Button x:Name="eightButton" Content="8" Grid.Column="1" Grid.Row="0" FontSize="40" Click="eightButton_Click"/>
-            <Button x:Name="nineButton" Content="9" Grid.Column="2" Grid.Row="0" FontSize="40" Click="nineButton_Click"/>
-            <Button x:Name="zeroButton" Content="0" Grid.Column="1" Grid.Row="3" FontSize="40" Click="zeroButton_Click"/>
-            <Button x:Name="plusButton" Content="+" Grid.Column="3" Grid.Row="2" FontSize="40" Click="plusButton_Click"/>
-            <Button x:Name="fiveButton" Content="5" Grid.Column="1" Grid.Row="1" FontSize="40" Click="fiveButton_Click"/>
-            <Button x:Name="equalsButton" Content="=" Grid.Column="3" Grid.Row="3" FontSize="40" Click="equalsButton_Click"/>
-            <Button x:Name="minusButton" Content="-" Grid.Column="3" Grid.Row="1" FontSize="40" Click="minusButton_Click"/>
-            <Button x:Name="multiplyButton" Content="x" Grid.Column="3" Grid.Row="0" FontSize="40" Click="multiplyButton_Click"/>
+            <Button x:Name="oneButton" Content="1" Grid.Column="0" Grid.Row="3" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="twoButton" Content="2" Grid.Column="1" Grid.Row="3" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="threeButton" Content="3" Grid.Column="2" Grid.Row="3" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="fourButton" Content="4" Grid.Column="0" Grid.Row="2" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="sixButton" Content="6" Grid.Column="2" Grid.Row="2" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="sevenButton" Content="7" Grid.Column="0" Grid.Row="1" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="eightButton" Content="8" Grid.Column="1" Grid.Row="1" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="nineButton" Content="9" Grid.Column="2" Grid.Row="1" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="zeroButton" Content="0" Grid.Column="1" Grid.Row="4" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="plusButton" Content="+" Grid.Column="3" Grid.Row="3" FontSize="40" Click="operator_click">
+                <Button.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="fiveButton" Content="5" Grid.Column="1" Grid.Row="2" FontSize="40" Click="button_click" Background="White"/>
+            <Button x:Name="equalsButton" Content="=" Grid.Column="3" Grid.Row="4" FontSize="40" Click="equalsButton_Click">
+                <Button.Background>
+                    <SolidColorBrush Color="#FF6BA9EB"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="minusButton" Content="-" Grid.Column="3" Grid.Row="2" FontSize="40" Click="operator_click">
+                <Button.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkColorKey}}"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="multiplyButton" Content="X" Grid.Column="3" Grid.Row="1" FontSize="38" Click="operator_click">
+                <Button.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="divideButton" Content="/" Grid.Column="3" Grid.Row="0" FontSize="40" Click="operator_click">
+                <Button.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="clearButton" Content="C" Grid.Column="2" Grid.Row="0" FontSize="30" Click="clearButton_Click" Background="#FFFFF3CE"/>
+            <Button x:Name="clearAllButton" Content="CE" Grid.Column="1" Grid.Row="0" FontSize="30" Click="clearAllButton_Click" Background="#FFFFF3CE"/>
+            <Button x:Name="procentButton" Content="%" Grid.Column="0" Grid.Row="0" FontSize="30" Click="operator_click">
+                <Button.Background>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="dotButton" Content="." Grid.Column="2" Grid.Row="4" FontSize="50" Click="dotButton_Click" Background="White"/>
+            <Button x:Name="switchButton" Content="+/-" Grid.Column="0" Grid.Row="4" FontSize="40" Click="switchButton_Click " Background="White"/>
         </Grid>
+        <Label x:Name="prevAction" Margin="10,34,0,0" Height="25" Content="placeholder" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="2" Width="337">
+            <Label.Foreground>
+                <SolidColorBrush Color="#FF909090" Opacity="0.9"/>
+            </Label.Foreground>
+        </Label>
 
     </Grid>
 </Window>

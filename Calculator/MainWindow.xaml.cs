@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Calculator
 {
@@ -21,99 +10,118 @@ namespace Calculator
     public partial class MainWindow : Window
     {
 
-        private string output;
-        private int firstDigit;
-        private int secondDigit;
-        private int currentDigit = 1;
-        
+        double value;
+        String operation;
+        bool isOperationPerformed;
+        bool isCalCompleted;
 
         public MainWindow()
         {
             InitializeComponent();
+            outputBlock.Text = "0";
+            prevAction.Content = "";
         }
 
-        private void oneButton_Click(object sender, RoutedEventArgs e)
+        private void button_click(object sender, RoutedEventArgs e)
         {
-            output += "1 ";
-            updateUI();
+            if (isCalCompleted)
+            {
+                clearAllButton_Click(sender, e);
+                isCalCompleted = false;
+            }
+            if (outputBlock.Text == "0")
+                outputBlock.Text = "";
+            Button btn = (Button)sender;
+            outputBlock.Text += btn.Content;
         }
 
-        private void twoButton_Click(object sender, RoutedEventArgs e)
+        private void operator_click(object sender, RoutedEventArgs e)
         {
-            output += "2";
-            updateUI();
-        }
-
-        private void threeButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "3";
-            updateUI();
-        }
-
-        private void fourButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "4";
-            updateUI();
-        }
-
-        private void fiveButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "5";
-            updateUI();
-        }
-
-        private void sixButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "6";
-            updateUI();
-        }
-
-        private void sevenButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "7";
-            updateUI();
-        }
-
-        private void eightButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "8";
-            updateUI();
-        }
-
-        private void nineButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "9";
-            updateUI();
-        }
-        private void zeroButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "0";
-            updateUI();
-        }
-        private void plusButton_Click(object sender, RoutedEventArgs e)
-        {
-            output += "+";
-            updateUI();
-        }
-
-        public void updateUI()
-        {
-            outputBlock.Text = output;
+            Button btn = (Button)sender;
+            if(isCalCompleted)
+            {
+                isCalCompleted = false;
+                Double.TryParse(outputBlock.Text, out value);
+                outputBlock.Text = "0";
+                if (btn.Content.ToString().Equals("%")) prevAction.Content = value + "% of ";
+                else
+                    prevAction.Content = value + " " + btn.Content.ToString().Replace('X', '*');
+                isOperationPerformed = true;
+                operation = btn.Content.ToString();
+                return;
+            }
+            if (isOperationPerformed)
+                equalsButton_Click(sender, e);
+            if(Double.TryParse(outputBlock.Text, out value)) {
+                isCalCompleted = false;
+                outputBlock.Text = "0";
+                if (btn.Content.ToString().Equals("%")) prevAction.Content = value + "% of "; else
+                    prevAction.Content = value + " " +btn.Content.ToString().Replace('X','*');
+                isOperationPerformed = true;
+                operation = btn.Content.ToString();
+                return;
+            }
         }
 
         private void equalsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Double currentValue = Double.Parse(outputBlock.Text);
+            switch(operation)
+            {
+                case "+":
+                    outputBlock.Text = (value + currentValue).ToString();
+                    break;
+                case "-":
+                    outputBlock.Text = (value - currentValue).ToString();
+                    break;
+                case "X":
+                    outputBlock.Text = (value * currentValue).ToString();
+                    break;
+                case "/":
+                    outputBlock.Text = (value / currentValue).ToString();
+                    break;
+                case "%":
+                    outputBlock.Text = ((value / 100) * currentValue).ToString();
+                    break;
+            }
+            if(operation.Equals("%"))
+            {
+                prevAction.Content = value + "% of " + currentValue + " = " + outputBlock.Text;
+                return;
+            }
+            prevAction.Content = value + " " + operation.Replace('X','*') + " " + currentValue + " = " + outputBlock.Text;
+            isCalCompleted = true;
         }
 
-        private void minusButton_Click(object sender, RoutedEventArgs e)
+        private void clearButton_Click(object sender, RoutedEventArgs e)
         {
-
+            outputBlock.Text = "0";
         }
 
-        private void multiplyButton_Click(object sender, RoutedEventArgs e)
+        private void clearAllButton_Click(object sender, RoutedEventArgs e)
         {
+            outputBlock.Text = "0";
+            prevAction.Content = "";
+            isOperationPerformed = false;
+            operation = "";
+        }
 
+        private void dotButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(!outputBlock.Text.Contains("."))
+            {
+                outputBlock.Text += ".";
+            }
+        }
+
+        private void switchButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(!outputBlock.Text.Contains("-"))
+            {
+                outputBlock.Text = String.Format("{0}" + outputBlock.Text, "-");
+                return;
+            }
+            outputBlock.Text = outputBlock.Text.Replace("-", "");
         }
     }
 }
